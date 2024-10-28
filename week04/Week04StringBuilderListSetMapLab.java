@@ -8,8 +8,10 @@ package week04;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Week04StringBuilderListSetMapLab {
@@ -136,13 +138,26 @@ public class Week04StringBuilderListSetMapLab {
 		//			and returns a set of strings consisting of all the strings in the
 		// 			input set that start with the character parameter.
 		System.out.println("\nWeek 4 Lab - Q10 solution:");
-
+		Set<String> firstNameStartsWith = findAllFirstNamesWith(firstNames, 'J');
+		
+		int numFound = 0;
+		
+		for (String found : firstNameStartsWith) {
+			System.out.println(found);
+			numFound++;
+		}
+		System.out.println("Found: " + numFound);
 
 		
 		// 11. Write and test a method that takes a set of strings 
 		//			and returns a list of the same strings
 		System.out.println("\nWeek 4 Lab - Q11 solution:");
 	
+		List<String> listFirstNames = convertSetToList(firstNames);
+		
+		for (String listName : listFirstNames) {
+			System.out.println(listName);
+		}
 		
 
 		// 12. Write and test a method that takes a set of integers 
@@ -150,12 +165,32 @@ public class Week04StringBuilderListSetMapLab {
 		//			from the original set
 		System.out.println("\nWeek 4 Lab - Q12 solution:");
 
+		Set<Integer> setOfIntegers = new HashSet<Integer>();
+		setOfIntegers.add(4);
+		setOfIntegers.add(15);
+		setOfIntegers.add(222);
+		setOfIntegers.add(77);
+		setOfIntegers.add(28);
+		setOfIntegers.add(45);
+		
+		Set<Integer> foundEvenNums = extractEvenNums(setOfIntegers);
+		for (Integer number : foundEvenNums) {
+			System.out.println(number);
+		}
+		
 
 		
 		// 13. Create a map of string and string and add 3 items to it where the key of each
 		// 			is a word and the value is the definition of the word
 		System.out.println("\nWeek 4 Lab - Q13 solution:");
-
+		
+		Map<String, String> dictionary = new HashMap<String, String>();
+		
+		dictionary.put("Car", "A mode of transportation which usually seats 8 people or less.");
+		dictionary.put("Cat", "A furry mammal with four legs which is a part of the Feline species.");
+		dictionary.put("Sand", "Small granular pieces of rocks, shells and coral found on beaches and on the floor of bodies of water.");
+		
+		System.out.println(dictionary);
 	
 		
 		// 14. Write and test a method that takes a Map<String, String> and a string 
@@ -163,34 +198,89 @@ public class Week04StringBuilderListSetMapLab {
 		// 			string parameter (i.e. like a language dictionary lookup)
 		System.out.println("\nWeek 4 Lab - Q14 solution:");
 
+		String lookupValue = lookUpKey(dictionary, "Cab");
+		System.out.println("Search result for " + "Cab" + " is " + lookupValue);
 		
 		// 15. Write and test a method that takes a List<String> 
 		//			and returns a Map<Character, Integer> containing a count of 
 		//			all the strings that start with a given character
 		System.out.println("\nWeek 4 Lab - Q15 solution:");
 		
+		Map<Character, Integer> letterCount = countStartsWith(listFirstNames);
+		for (Character firstLetter : letterCount.keySet()) {
+			System.out.println(firstLetter + " - " + letterCount.get(firstLetter));
+		}
+		
 
+		System.out.println("\nWeek 4 Lab Solutions for Bob Ruzga Successfully Completed!");
+		System.out.println("********************************************************************");
 	}
 	
 	
 	// Method 15:
-	
+	public static Map<Character, Integer> countStartsWith(List<String> listFNames) {
+		Map<Character, Integer> results15 = new HashMap<Character, Integer>();
+		
+		for (String aName : listFNames) {
+			char begins = aName.charAt(0);
+			
+			if (results15.get(begins) == null) {
+				results15.put(begins, 1);
+			} else {
+				results15.put(begins, results15.get(begins) + 1);
+			}
+		}
+		return results15;
+	}
 	
 	
 	// Method 14:
 	
-
+	public static String lookUpKey(Map<String, String> dictionary, String word) {
+		for (String key : dictionary.keySet()) {
+			if (key.equals(word)) {
+				return dictionary.get(key);
+			}
+		}
+		return "Not Found";
+	}
 	
 	// Method 12:
-	
+	public static Set<Integer> extractEvenNums(Set<Integer> setOfIntegerNums) {
+		Set<Integer> evenNumsFound = new HashSet<Integer>();
+		
+		for (Integer aNum : setOfIntegerNums) {
+			if (aNum % 2 == 0) {
+				evenNumsFound.add(aNum);
+			}
+		}
+		
+		return evenNumsFound;
+	}
 
 	
 	// Method 11:
-	
+	public static List<String> convertSetToList(Set<String> firstNames) {
+		List<String> resultingList = new ArrayList<String>();
+		
+		for (String name : firstNames) {
+			resultingList.add(name);
+		}
+		return resultingList;
+	}
 
 
 	// Method 10:
-	
+	public static Set<String> findAllFirstNamesWith(Set<String> firstNames, char findLetter) {
+		Set<String> foundNames = new HashSet<String>();
+		
+		for (String name : firstNames) {
+			if (name.charAt(0) == findLetter) {
+				foundNames.add(name);
+			}
+		}
+		return foundNames;
+	}
 
 	
 	// Method 8:
