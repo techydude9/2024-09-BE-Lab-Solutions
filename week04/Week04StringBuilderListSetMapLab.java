@@ -7,7 +7,10 @@
 package week04;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Week04StringBuilderListSetMapLab {
 
@@ -73,6 +76,10 @@ public class Week04StringBuilderListSetMapLab {
 		//			and returns a new list with all strings from the original list
 		// 			containing the second string parameter (i.e. like a search method)
 		System.out.println("\nWeek 4 Lab - Q6 solution:");
+		List<String> searchResults = isItInThere(carList, "om");
+		for (String aResult : searchResults) {
+			System.out.println(aResult);
+		}
 
 		
 		// 7. Write and test a method that takes a list of integers 
@@ -84,18 +91,46 @@ public class Week04StringBuilderListSetMapLab {
 		//		c. The third containing values divisible by 5, and 
 		//		d. The fourth all numbers from the input List not divisible by 2, 3, or 5
 		System.out.println("\nWeek 4 Lab - Q7 solution:");
+		List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 16, 20, 25, 30);
+
+		List<List<Integer>> sortedNumbers = sortDivisibleNumbers(numbers);
+		int count = 1;
+		for (List<Integer> list : sortedNumbers) {
+			for (Integer number : list) {
+				System.out.println(number);
+			}
+			if (count < sortedNumbers.size()) {
+				// System.out.println("Count: " + count + " " + sortedNumbers.size());
+				System.out.println("Next list ----------");
+			}
+			count++;
+		}
+		
 
 		
 		// 8. Write and test a method that takes a list of strings 
 		//			and returns a list of integers that contains the length of each string
 		System.out.println("\nWeek 4 Lab - Q8 solution:");
-
-
+		List<Integer> carNameLengths = calcCarNameLengths(carList);
 		
+		for (Integer i : carNameLengths) {
+			System.out.println(i);
+		}
+		
+
 		// 9. Create a set of strings and add 5 values
 		System.out.println("\nWeek 4 Lab - Q9 solution:");
 
+		Set<String> firstNames = new HashSet<String>();
+		firstNames.add("Ralph");
+		firstNames.add("Karen");
+		firstNames.add("George");
+		firstNames.add("Jill");
+		firstNames.add("Jim");
 		
+		for (String name : firstNames) {
+			System.out.println(name);
+		}
 		
 		// 10. Write and test a method that takes a set of strings and a character 
 		//			and returns a set of strings consisting of all the strings in the
@@ -159,15 +194,62 @@ public class Week04StringBuilderListSetMapLab {
 
 	
 	// Method 8:
-	
+	public static List<Integer> calcCarNameLengths(List<String> carList) {
+		List<Integer> nameLengths = new ArrayList<Integer>();
+		
+		for (String aCar : carList) {
+			nameLengths.add(aCar.length());
+		}
+		return nameLengths;
+	}
 
 	
 	// Method 7:
 	
+	/* I don't understand the question nor the output so I've copied the Lab solution here so I
+	// can see what the output looks like. Figure this out:
+	 * First List will have 4 arraylists bc of the 4 results.add below:
+	 * then if the number of the passed List is div by 2 it will go into the first entry of the 
+	 * first array (get(0)). If div by 3 into 2nd(get(1)) array, by 5 into 3rd(get(2)) and if none then 4th(get(3))
+	*/
+	public static List<List<Integer>> sortDivisibleNumbers(List<Integer> list) {
+		List<List<Integer>> results = new ArrayList<List<Integer>>();
+		results.add(new ArrayList<Integer>());  // contains the nums div by 2
+		results.add(new ArrayList<Integer>());  // contains nums div by 3
+		results.add(new ArrayList<Integer>());  // contains nums div by 5
+		results.add(new ArrayList<Integer>());  // contains nums not div by 2,3,5
+
+		for (Integer number : list) {
+			if (number % 2 == 0) {
+				results.get(0).add(number);
+			}
+			if (number % 3 == 0) {
+				results.get(1).add(number);
+			}
+			if (number % 5 == 0) {
+				results.get(2).add(number);
+			}
+			if (number % 2 != 0 && number % 3 != 0 && number % 5 != 0) {
+				results.get(3).add(number);
+			}
+		}
+
+		return results;
+	}
 
 	
 	// Method 6:
-	
+	public static List<String> isItInThere(List<String> carList, String toFind) {
+		List<String> results = new ArrayList<String>();
+		
+		for ( String aCar : carList) {
+			if (aCar.contains(toFind)) {
+				results.add(aCar);
+			}
+		}
+		
+		return results;
+	}
 
 	
 	// Method 5:
