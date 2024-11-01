@@ -3,6 +3,8 @@
  * Author:  Promineo Tech Academic Team
  * Subject:  People OOP Lab
  * Java Week 05 People OOP Lab  
+ * 
+ * Bob Ruzga's Lab Solution: Note this was not attempted due to limited time to complete Coding Assignment
  */
 package week05.week05People;
 

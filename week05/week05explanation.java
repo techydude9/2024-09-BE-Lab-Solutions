@@ -19,9 +19,9 @@ public class week05explanation {
 	 *	  NOTE:  This is different than your assignment.  Your assignment also
 	 *			 creates interfaces, but uses them in a different way. -- COMPLETED
      *	
- 	 *  3. Week 5 Vending Machine - this is the third Lab.
+ 	 *  3. Week 5 Vending Machine - this is the third Lab.  -- COMPLETED W/ LAB SOLUTION HELP
  	 *  
- 	 *  4. Week 5 Creating Classes -- People class -- Extra practice
+ 	 *  4. Week 5 Creating Classes -- People class -- Extra practice  -- Not Attempted
 	 */  	
 	
 }
