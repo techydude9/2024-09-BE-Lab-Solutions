@@ -40,10 +40,11 @@ public class week05MathOperationsLab {
 		 * Instantiate your implementing classes here
 		 */
 		
-		
-		
-		
-		
+		AdditionOperation addIt = new AdditionOperation();
+		SubtractionOperation subtractIt = new SubtractionOperation();
+		MultiplicationOperation multiplyIt = new MultiplicationOperation();
+		DivisionOperation divideIt = new DivisionOperation();
+				
 
 		System.out.println("-------------------------");
 		System.out.println("Question 3: Create Method");
@@ -57,11 +58,12 @@ public class week05MathOperationsLab {
 		 *      - Don't forget to print out the result returned by the method
 		 */
 		
+		double firstNum = 5.3, secondNum = 2.7;
 		
 
 		System.out.println("   Parameters:");
-		System.out.println("\tParameter 1: " );
-		System.out.println("\tParameter 2: " );
+		System.out.println("\tParameter 1: " + firstNum);
+		System.out.println("\tParameter 2: " + secondNum);
 
 		/* 
 		 * Calls to the method using implementing classes
@@ -72,24 +74,25 @@ public class week05MathOperationsLab {
 		/*
 		 * Put call to method using addition here
 		 */
-		
+			System.out.println("\t\t" + computeIt(addIt, firstNum, secondNum));
 		
 		System.out.println("\t2b - Subtraction:  ");
 		/*
 		 * Put call to method using subtraction here
 		 */
-		
+			System.out.println("\t\t" + computeIt(subtractIt, firstNum, secondNum));
 		
 		System.out.println("\t2c - Multiplication:  ");
 		/*
 		 * Put call to method using multiplication here
 		 */
-		
+		System.out.println("\t\t" + computeIt(multiplyIt, firstNum, secondNum));
 		
 		System.out.println("\t2d - Division:  ");
 		/*
 		 * Put call to method using division here
 		 */
+		System.out.println("\t\t" + computeIt(divideIt, firstNum, secondNum));
 		
 
 		
@@ -100,6 +103,9 @@ public class week05MathOperationsLab {
 	 * Method -- Question 3:
 	 */
 
+	public static double computeIt(MathOperation operation, double num1, double num2) {
+		return operation.evaluate(num1, num2);
+	}
 	
 	
 		
