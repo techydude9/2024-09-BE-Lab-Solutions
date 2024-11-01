@@ -17,7 +17,7 @@ public class week05explanation {
 	 * 2. Week 5 Interfaces - this is the second Lab, and helps walk through
 	 *		interface creation and use.  
 	 *	  NOTE:  This is different than your assignment.  Your assignment also
-	 *			 creates interfaces, but uses them in a different way.
+	 *			 creates interfaces, but uses them in a different way. -- COMPLETED
      *	
  	 *  3. Week 5 Vending Machine - this is the third Lab.
  	 *  
