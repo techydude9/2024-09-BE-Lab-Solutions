@@ -11,7 +11,8 @@ public class week05explanation {
 	/* This is the explanation of all of the labs in Java Week05
 	 *
 	 * 1. Week 5 OOP -- this is the first Lab that creates 
-	 *		classes (objects) and uses them in the main
+	 *		classes (objects) and uses them in the main  -- COMPLETED!
+	 *
 	 *
 	 * 2. Week 5 Interfaces - this is the second Lab, and helps walk through
 	 *		interface creation and use.  

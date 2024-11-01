@@ -4,12 +4,12 @@
 // Subject:  Object Oriented Programming
 // Java Week 05 Lab  
 //
-package week05;
+package week05.Week05OOP;
 
-
-
-
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Week05OOPLab {
 
@@ -49,10 +49,10 @@ public class Week05OOPLab {
 		//
 		System.out.println("\nQuestion 1: Card Class");
 		// Add your code here to instantiate a Card
-		
+			Card testCard = new Card("Ace", "Spades", 14);
 		
 		// Call the describe method on the newly instantiated card.
-		
+			testCard.describe();
 		
 		
 		
@@ -72,24 +72,21 @@ public class Week05OOPLab {
 		//
 		System.out.println("\nQuestion 2: Deck Class");
 	    // Add your code here to instantiate a Deck	
-	    
+	    	Deck cardDeck = new Deck();
 	    
 	    // Call the describe method on the newly instantiated deck.
-	    
-	    
-	    
-	    
+	    	cardDeck.describe();
 		
 		
 		// 3. Deck shuffle() Method:
 		//		Add a shuffle method within the Deck Class
 		System.out.println("\nQuestion 3: Deck shuffle() method");
 		// Test your method here
-		
+			cardDeck.shuffle();
 		
 		
 		// Call the describe method on the newly shuffled deck.
-
+			cardDeck.describe();
 		
 		
 		
@@ -97,14 +94,13 @@ public class Week05OOPLab {
 		//		Add a draw method within the Deck Class
 		System.out.println("\nQuestion 4: Deck draw() method");
 		// Test your method here
+			Card aCard = cardDeck.draw();
+			
+			aCard.describe();
+			// below was used to check that the [0] card had been removed and the deck was now 51
+			// cardDeck.describe();
 		
-		
-		
-		
-		
-		
-		
-		
+			
 		// 5. Create Game Board:
 		//		Create and test a method that takes an int as a parameter (representing the
 		// 			number of players for a game) and returns a Map<String, List<Card>>
@@ -115,20 +111,66 @@ public class Week05OOPLab {
 		// 			and deal the cards out to the "players" in the Map.
 		System.out.println("\nQuestion 5: Create Game");
 		// Call your method here
-
+			int numOfPlayers = 4;
+			Map<String, List<Card>> playersTable = createGame(numOfPlayers);
+			
+			System.out.println("\n------- Let's get the Game Going --------");
+			for (int i = 1; i <= numOfPlayers; i++) {
+				String playerName = "Player " + i;
+				System.out.println(playerName + "\n------------");
+				List<Card> playersHand = playersTable.get(playerName);
+				for (Card playerCard : playersHand) {
+					playerCard.describe();
+				}
+				System.out.println("*********************");
+			}
 		
-		
-		
-		
-		
-		
-		
-	} 
+	} // End of Main
 	
 	// Method 5:
 	
-	
+		private static Map<String, List<Card>> createGame(int numOfPlayers) {
+			Map<String, List<Card>> playTheGame = new HashMap<>();
+			
+			Deck deck = new Deck();
+			deck.shuffle();
+			
+			System.out.println("\nDeck has "+ deck.getCards().size() + " cards!");
+			System.out.println("******  DEAL THE CARDS!!! *********");
+			
+			// Create the entries in the Map with the Player Name and an empty List
+			for (int i = 1; i <= numOfPlayers; i++) {
+				List<Card> playerEmptyHand = new ArrayList<>();
+				String playerName = "Player " + i;
+				playTheGame.put(playerName, playerEmptyHand);
+			}
+			
+			// Deal the deck: draw a card, add the new card to a players hand and store
+			for (int i = 0; i < 52/numOfPlayers; i++) {
+				for (int j = 1; j <= numOfPlayers; j++) {
+					String playerName = "Player " + j;
+					List<Card> playerHand = playTheGame.get(playerName);
+					playerHand.add(deck.draw());
+					playTheGame.replace(playerName, playerHand);
+				}
+			}
+			
+			// Check to see if there are any cards left in the deck. This will happen
+			// if the number of players is not evenly divisible by 52 cards
+			
+			if (52 % numOfPlayers != 0) {
+				System.out.print("With " + numOfPlayers + " players -- ");
+				System.out.println("Cards left in deck: " + 52%numOfPlayers); 
+			} else {
+				System.out.println("All cards have been dealt");	
+			}
+			
+			
+			return playTheGame;
+			
+			
+		}  // End of createGame Method
 	
 	
 
-}
+}  // End of Class
