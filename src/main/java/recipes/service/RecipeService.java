@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import recipes.dao.RecipeDao;
+import recipes.entity.Recipe;
 import recipes.exception.DbException;
 
 public class RecipeService {
@@ -86,5 +87,9 @@ public class RecipeService {
 		} catch (Exception e) {
 			throw new DbException(e);
 		}
+	}
+
+	public Recipe addRecipe(Recipe recipe) {
+		return recipeDao.insertRecipe(recipe);
 	}
 }
