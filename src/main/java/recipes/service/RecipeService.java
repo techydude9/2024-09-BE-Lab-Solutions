@@ -13,11 +13,13 @@ import recipes.exception.DbException;
 
 public class RecipeService {
 	private static final String SCHEMA_FILE = "recipe_schema.sql";
+	private static final String DATA_FILE = "recipe_data.sql";
 	
 	private RecipeDao recipeDao = new RecipeDao();
 	
 	public void createAndPopulateTables() {
 		loadFromFile(SCHEMA_FILE);
+		loadFromFile(DATA_FILE);
 	}
 
 	private void loadFromFile(String fileName) {
