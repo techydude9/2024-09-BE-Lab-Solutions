@@ -61,7 +61,7 @@ public class RecipeService {
 
 	private String replaceWhitespaceSquencesWithSingleSpace(String content) {
 		return content.replaceAll("\\s+", " ");
-	}
+	} // end of replaceWhitespaceSquencesWithSingleSpace
 
 	private String removeComments(String content) {
 		StringBuilder builder = new StringBuilder(content);
@@ -78,7 +78,7 @@ public class RecipeService {
 		}
 		
 		return builder.toString();
-	}
+	} // end of removeComments
 
 	private String readFileContent(String fileName) {
 		try {
@@ -87,9 +87,14 @@ public class RecipeService {
 		} catch (Exception e) {
 			throw new DbException(e);
 		}
-	}
+	} // end of readFileContent
 
 	public Recipe addRecipe(Recipe recipe) {
 		return recipeDao.insertRecipe(recipe);
-	}
-}
+	} // end of addRecipe
+
+	public List<Recipe> fetchRecipes() {
+		return recipeDao.fetchAllRecipes();
+	} // end of fetchRecipes
+	
+} // end of RecipeService --------------
