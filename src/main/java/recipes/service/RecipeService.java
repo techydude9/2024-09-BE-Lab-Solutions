@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import recipes.dao.RecipeDao;
 import recipes.entity.Recipe;
@@ -17,6 +18,12 @@ public class RecipeService {
 	private static final String DATA_FILE = "recipe_data.sql";
 	
 	private RecipeDao recipeDao = new RecipeDao();
+	
+	public Recipe fetchRecipeById(Integer recipeId) {
+		return recipeDao.fetchRecipeById(recipeId)
+				.orElseThrow(() -> new NoSuchElementException(
+						"recipe with ID=" + recipeId + " does not exist."));
+	}
 	
 	public void createAndPopulateTables() {
 		loadFromFile(SCHEMA_FILE);

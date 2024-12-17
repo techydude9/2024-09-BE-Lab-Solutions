@@ -14,12 +14,14 @@ import recipes.service.RecipeService;
 public class Recipes {
 	private Scanner scanner = new Scanner(System.in);
 	private RecipeService recipeService = new RecipeService();
+	private Recipe curRecipe;
 	
 	// @formatter:off
 	private List<String> operations = List.of(
 			"1) Create and populate all tables",
 			"2) Add a recipe",
-			"3) List recipes"
+			"3) List recipes",
+			"4) Select working recipe"
 	);
 	// @formatter:on
 		
@@ -55,6 +57,10 @@ public class Recipes {
 				listRecipes();
 				break;
 				
+			case 4:
+				setCurrentRecipe();
+				break;
+				
 			default:
 				System.out.println("\n" + operation +  " is not valid. Try again.");
 			} // end of switch
@@ -67,13 +73,36 @@ public class Recipes {
 	} // end of displayMenu
 
 
-	private void listRecipes() {
+	private void setCurrentRecipe() {
+		List<Recipe> recipes = listRecipes();
+		
+		Integer recipeId = getIntInput("Select a recipe ID");
+		
+		curRecipe = null;
+		
+		for(Recipe recipe : recipes) {
+			if(recipe.getRecipeId().equals(recipeId)) {
+				curRecipe = recipeService.fetchRecipeById(recipeId);
+				break;
+			} // end of if
+		} // end of for
+		
+		if(Objects.isNull(curRecipe)) {
+			System.out.println("\nInvalid recipe selected.");
+		}
+		
+	} // end of setCurrentRecipe method
+
+
+	private List<Recipe> listRecipes() {
 		List<Recipe> recipes = recipeService.fetchRecipes();
 		
 		System.out.println("\nRecipes:");
 		
 		recipes.forEach(recipe -> System.out.println("   " + 
 				recipe.getRecipeId() + ": " + recipe.getRecipeName()));
+		
+		return recipes;
 		
 	} // end of listRecipes method ----
 
@@ -99,7 +128,8 @@ public class Recipes {
 		Recipe dbRecipe = recipeService.addRecipe(recipe);
 		System.out.println("You added this recipe:\n" + dbRecipe);
 		
-		
+		curRecipe = recipeService.fetchRecipeById(dbRecipe.getRecipeId());
+				
 	} // end of addRecipe
 
 
