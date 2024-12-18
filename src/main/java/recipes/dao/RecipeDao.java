@@ -55,6 +55,8 @@ public class RecipeDao extends DaoBase {
 				
 			} // end of Objects if
 			
+			commitTransaction(conn);
+			
 			return Optional.ofNullable(recipe);
 			
 			} // end of main try

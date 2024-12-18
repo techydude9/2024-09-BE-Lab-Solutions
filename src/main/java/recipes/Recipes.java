@@ -1,12 +1,12 @@
 package recipes;
 
-import java.sql.Connection;
+// import java.sql.Connection;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-import recipes.dao.DbConnection;
+// import recipes.dao.DbConnection;
 import recipes.entity.Recipe;
 import recipes.exception.DbException;
 import recipes.service.RecipeService;
@@ -167,7 +167,13 @@ public class Recipes {
 		System.out.println("Here's what you can do:");
 		
 		operations.forEach(op -> System.out.println("   " + op));
-		} // end of printOperations
+		
+		if (Objects.isNull(curRecipe)) {
+			System.out.println("\nYou are not working with a recipe.");
+		} else {
+			System.out.println("\nYou are working with recipe " + curRecipe);
+		}
+	} // end of printOperations
 
 	private Integer getIntInput(String prompt) {
 		String input = getStringInput(prompt);
