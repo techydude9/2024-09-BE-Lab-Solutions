@@ -1,13 +1,16 @@
 package recipes;
 
+import java.math.BigDecimal;
 // import java.sql.Connection;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+import recipes.entity.Ingredient;
 // import recipes.dao.DbConnection;
 import recipes.entity.Recipe;
+import recipes.entity.Unit;
 import recipes.exception.DbException;
 import recipes.service.RecipeService;
 
@@ -21,7 +24,8 @@ public class Recipes {
 			"1) Create and populate all tables",
 			"2) Add a recipe",
 			"3) List recipes",
-			"4) Select working recipe"
+			"4) Select working recipe",
+			"5) Add ingredient to current recipe"
 	);
 	// @formatter:on
 		
@@ -61,6 +65,10 @@ public class Recipes {
 				setCurrentRecipe();
 				break;
 				
+			case 5:
+				addIngredientToCurrentRecipe();
+				break;
+				
 			default:
 				System.out.println("\n" + operation +  " is not valid. Try again.");
 			} // end of switch
@@ -71,6 +79,45 @@ public class Recipes {
 			
 		} // end of while	
 	} // end of displayMenu
+
+
+	private void addIngredientToCurrentRecipe() {
+		if(Objects.isNull(curRecipe)) {
+			System.out.println("\nPlease select a recipe first.");
+			return;
+		}
+		
+		String name = getStringInput("Enter the ingredient name");
+		String instruction = 
+				getStringInput("Enter an instruction if any (like \"finely chopped\"");
+		Double inputAmount = getDoubleInput("Enter the ingredient amount (like .25)");
+		List<Unit> units = recipeService.fetchUnits();
+		
+		BigDecimal amount = Objects.isNull(inputAmount) ? null 
+				: new BigDecimal(inputAmount).setScale(2);
+		
+		System.out.println("Units:");
+		
+		units.forEach(unit -> System.out.println("   " + unit.getUnitId() + ": "
+			+ unit.getUnitNameSingular() + "(" + unit.getUnitNamePlural() + ")"));
+		
+		Integer unitId = getIntInput("Enter a unit ID (press Enter for none)");
+		
+		Unit unit = new Unit();
+		unit.setUnitId(unitId);
+		
+		Ingredient ingredient = new Ingredient();
+		
+		ingredient.setRecipeId(curRecipe.getRecipeId());
+		ingredient.setUnit(unit);
+		ingredient.setIngredientName(name);
+		ingredient.setInstruction(instruction);
+		ingredient.setAmount(amount);
+		
+		recipeService.addIngredient(ingredient);
+		curRecipe = recipeService.fetchRecipeById(ingredient.getRecipeId());
+
+	} // end of addIngredientToCurrentRecipe method
 
 
 	private void setCurrentRecipe() {

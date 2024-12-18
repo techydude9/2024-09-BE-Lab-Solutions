@@ -228,5 +228,10 @@ public class RecipeDao extends DaoBase {
 			throw new DbException(e);
 		}
 	} // end of fetchAllRecipes ---
+
+	public List<Unit> fetchAllUnits() {
+		// Video 2 at timestamp 16:11
+		return null;
+	}
 	
 } // end of RecipeDao class -------------
