@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import recipes.dao.RecipeDao;
+import recipes.entity.Ingredient;
 import recipes.entity.Recipe;
+import recipes.entity.Step;
 import recipes.entity.Unit;
 import recipes.exception.DbException;
 
@@ -108,5 +110,15 @@ public class RecipeService {
 	public List<Unit> fetchUnits() {
 		return recipeDao.fetchAllUnits();
 	} // end of fetchUnits method ----
+
+	public void addIngredient(Ingredient ingredient) {
+		recipeDao.addIngredientToRecipe(ingredient);
+		
+	} // end of addIngredient method ----
+
+	public void addStep(Step step) {
+		recipeDao.addStepToRecipe(step);
+				
+	} // end of addStep method -----
 	
 } // end of RecipeService --------------

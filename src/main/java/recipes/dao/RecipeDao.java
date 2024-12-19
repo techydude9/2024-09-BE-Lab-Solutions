@@ -1,5 +1,6 @@
 package recipes.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -230,8 +231,91 @@ public class RecipeDao extends DaoBase {
 	} // end of fetchAllRecipes ---
 
 	public List<Unit> fetchAllUnits() {
-		// Video 2 at timestamp 16:11
-		return null;
-	}
+		String sql = "SELECT * FROM " + UNIT_TABLE + " ORDER BY unit_name_singular";
+		
+		try(Connection conn = DbConnection.getConnection()) {
+			startTransaction(conn);
+			
+			try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+				try(ResultSet rs = stmt.executeQuery()) {
+					List<Unit> units = new LinkedList<>();
+					
+					while(rs.next()) {
+						units.add(extract(rs, Unit.class));
+					}
+					return units;
+				}
+			} // end of prepare try
+			catch(Exception e) {
+				rollbackTransaction(conn);
+				throw new DbException(e);
+			} // end of prepare catch
+		} catch (SQLException e) {
+			throw new DbException(e);
+		} // end of outer catch
+		
+	} // end of fetchAllUnits method -------
+
+	public void addIngredientToRecipe(Ingredient ingredient) {
+		String sql = "INSERT INTO " + INGREDIENT_TABLE
+			+ " (recipe_id, unit_id, ingredient_name, instruction, ingredient_order, amount) "
+			+ "VALUES (?, ?, ?, ?, ?, ?)";
+		
+		try(Connection conn = DbConnection.getConnection()) {
+			startTransaction(conn);
+			
+			try {
+				Integer order = getNextSequenceNumber(conn, ingredient.getRecipeId(),
+						INGREDIENT_TABLE, "recipe_id");
+				
+				try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+					setParameter(stmt, 1, ingredient.getRecipeId(), Integer.class);
+					setParameter(stmt, 2, ingredient.getUnit().getUnitId(), Integer.class);
+					setParameter(stmt, 3, ingredient.getIngredientName(), String.class);
+					setParameter(stmt, 4, ingredient.getInstruction(), String.class);
+					setParameter(stmt, 5, order, Integer.class);
+					setParameter(stmt, 6, ingredient.getAmount(), BigDecimal.class);
+					
+					stmt.executeUpdate();
+					commitTransaction(conn);
+						
+				} // end of prepare try
+			}
+			catch(Exception e) {
+				rollbackTransaction(conn);
+				throw new DbException(e);
+			}
+		} catch (SQLException e) {
+			throw new DbException(e);
+		} // end of outer catch
+	} // end of addIngredientToRecipe method -------
+
+	public void addStepToRecipe(Step step) {
+		String sql = 
+			"INSERT INTO " + STEP_TABLE + " (recipe_id, step_order, step_text)"
+			+ " VALUES (?, ?, ?)";
+		
+		try(Connection conn = DbConnection.getConnection()) {
+			startTransaction(conn);
+			
+			Integer order = getNextSequenceNumber(conn, step.getRecipeId(), STEP_TABLE, "recipe_id");
+			
+			try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+				setParameter(stmt, 1, step.getRecipeId(), Integer.class);
+				setParameter(stmt, 2, order, Integer.class);
+				setParameter(stmt, 3, step.getStepText(), String.class);
+				
+				stmt.executeUpdate();
+				commitTransaction(conn);			
+			} 
+			catch (Exception e) {
+				rollbackTransaction(conn);
+				throw new DbException(e);
+			} // end of preparedstatement try/catch block
+		} catch (SQLException e) {
+			throw new DbException(e);
+		} // end of outer try/ catch
+		
+	} // end of addStepToRecipe method ----
 	
 } // end of RecipeDao class -------------
