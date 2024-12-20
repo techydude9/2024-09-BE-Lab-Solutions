@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+import recipes.entity.Category;
 import recipes.entity.Ingredient;
 // import recipes.dao.DbConnection;
 import recipes.entity.Recipe;
@@ -27,7 +28,8 @@ public class Recipes {
 			"3) List recipes",
 			"4) Select working recipe",
 			"5) Add ingredient to current recipe",
-			"6) Add step to current recipe"
+			"6) Add step to current recipe",
+			"7) Add category to current recipe"
 		
 	);
 	// @formatter:on
@@ -76,6 +78,11 @@ public class Recipes {
 				addStepToCurrentRecipe();
 				break;
 				
+			case 7:
+				addCategoryToCurrentRecipe();
+				break;
+				
+				
 			default:
 				System.out.println("\n" + operation +  " is not valid. Try again.");
 			} // end of switch
@@ -87,6 +94,25 @@ public class Recipes {
 		} // end of while	
 	} // end of displayMenu
 
+
+	private void addCategoryToCurrentRecipe() {
+		if(Objects.isNull(curRecipe)) {
+			System.out.println("\nPlease select a recipe first.");
+			return;
+		}
+		
+		List<Category> categories = recipeService.fetchCategories();
+		
+		categories.forEach(category -> System.out.println("  " + category.getCategoryName()));
+
+		String category = getStringInput("Enter the category to add");
+		
+		if(Objects.nonNull(category)) {
+			recipeService.addCategoryToRecipe(curRecipe.getRecipeId(), category);
+			curRecipe = recipeService.fetchRecipeById(curRecipe.getRecipeId());
+		}
+		
+	} // end of addCategoryToCurrentRecipe method -----
 
 	private void addStepToCurrentRecipe() {
 		if(Objects.isNull(curRecipe)) {

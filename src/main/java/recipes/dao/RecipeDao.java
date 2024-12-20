@@ -317,5 +317,60 @@ public class RecipeDao extends DaoBase {
 		} // end of outer try/ catch
 		
 	} // end of addStepToRecipe method ----
+
+	public List<Category> fetchAllCategories() {
+		String sql = "SELECT * FROM " + CATEGORY_TABLE + " ORDER BY category_name";
+		
+		try(Connection conn = DbConnection.getConnection()){
+			startTransaction(conn);
+		
+			try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+				try(ResultSet rs = stmt.executeQuery()) {
+					List<Category> categories = new LinkedList<>();
+					
+					while(rs.next()) {
+						categories.add(extract(rs, Category.class));
+					}
+					return categories;
+				}
+			} 
+			catch(Exception e) {
+				rollbackTransaction(conn);
+				throw new DbException(e);
+			}
+			// end of preparedstatement try catch block
+			
+		} catch (SQLException e) {
+			throw new DbException(e);
+			
+		} // end of outer try catch block ----
+		
+		
+	} // end of fetchAllCategories method ----
+
+	public void addCategoryToRecipe(Integer recipeId, String category) {
+		String subQuery = "(SELECT category_id FROM " + CATEGORY_TABLE + " WHERE category_name = ?)";
+		
+		String sql = "INSERT INTO " + RECIPE_CATEGORY_TABLE 
+				+ " (recipe_id, category_id) VALUES (?, " + subQuery + ")";
+		
+		try(Connection conn = DbConnection.getConnection()) {
+			startTransaction(conn);
+			
+			try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+				setParameter(stmt, 1, recipeId, Integer.class);
+				setParameter(stmt, 2, category, String.class);
+				
+				stmt.executeUpdate();
+				commitTransaction(conn);
+			}
+			catch(Exception e) {
+				rollbackTransaction(conn);
+				throw new DbException(e);
+			}
+		} catch (SQLException e) {
+			throw new DbException(e);
+		} // end of outer try catch block for connection
+	} // end of addCategoryToRecipe method ------
 	
 } // end of RecipeDao class -------------
